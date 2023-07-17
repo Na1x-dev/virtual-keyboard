@@ -7,9 +7,9 @@ var inputLines = [];
 
 const keyCodes = [
     ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
-    ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete'],
+    ['Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash'],
     ['CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter'],
-    ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight'],
+    ['ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ShiftRight','ArrowUp', 'Delete'],
     ['ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ControlRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight']
 ];
 
@@ -17,7 +17,7 @@ const russianLayout = [
     ['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
     ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '\\'],
     ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter'],
-    ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', 'Shift','↑', 'Del'],
+    ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', 'Shift', '↑', 'Del'],
     ['Ctrl', 'Meta', 'Alt', ' ', 'Alt', 'Ctrl', '←', '↓', '→']
 ];
 
@@ -31,25 +31,26 @@ const englishLayout = [
 
 const multiplierWidth = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2.3],
-    [1.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.8],
-    [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2.5],
-    [2.3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1.6, 1, 1, 7.1, 1, 1.6, 1, 1, 1]
+    [1.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'auto'],
+    [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'auto'],
+    ['auto', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1.6, 1, 1, 'auto', 1, 1.6, 1, 1, 1]
 ];
 
 
-let keys =
-    [['`', '1', '2', '3'],
-    [],
-    [],
-    [],
-    []];
+// let keys =
+//     [['`', '1', '2', '3'],
+//     [],
+//     [],
+//     [],
+//     []];
 
 mainBlock.className = 'main-block';
 header.className = 'main-header';
 outputBlock.className = 'output-block';
 outputField.className = 'output-field';
 inputBlock.className = 'input-block';
+outputField.autofocus = 'autofocus';
 
 header.innerHTML = "Virtual Keyboard";
 
@@ -74,7 +75,6 @@ function createInputLines() {
 }
 
 function createVirtualKeys(layout) {
-
     for (let i = 0; i < layout.length; i++) {
         let j = 0;
         for (let key of layout[i]) {
@@ -82,18 +82,44 @@ function createVirtualKeys(layout) {
             keyDiv.className = 'key-div';
             keyDiv.appendChild(document.createTextNode(key));
             inputLines[i].appendChild(keyDiv);
-            keyDiv.style.width = keyDiv.offsetHeight * multiplierWidth[i][j] + "px";
+            if (multiplierWidth[i][j] !== 'auto') {
+                keyDiv.style.minWidth = keyDiv.offsetHeight * multiplierWidth[i][j] + "px";
+            } else {
+                keyDiv.style.width = '100%';
+            }
             j++;
         }
     }
 }
 
+function getKeyDiv(i, j) {
+    return inputLines[i].getElementsByClassName('key-div')[j]
+}
 
+document.addEventListener('keydown', function (event) {
+    for (let i = 0; i < keyCodes.length; i++) {
+        for (let j = 0; j < keyCodes[i].length; j++)
+            if (event.code == keyCodes[i][j]) {
+                getKeyDiv(i, j).style.backgroundColor = "#eee";
+                getKeyDiv(i, j).style.color = "#333";
+            }
+    }
+});
+
+document.addEventListener('keyup', function (event) {
+    for (let i = 0; i < keyCodes.length; i++) {
+        for (let j = 0; j < keyCodes[i].length; j++)
+            if (event.code == keyCodes[i][j]) {
+                getKeyDiv(i, j).style.backgroundColor = "#557";
+                getKeyDiv(i, j).style.color = "#eee";
+            }
+    }
+});
 
 function main() {
     createInputLines();
     createVirtualKeys(englishLayout);
-    outputBlock.style.width = inputBlock.offsetWidth-26 + "px";
+    outputBlock.style.width = inputBlock.offsetWidth - 26 + "px";
 }
 
 main();
