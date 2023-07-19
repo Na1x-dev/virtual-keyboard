@@ -111,8 +111,8 @@ function getKeyDiv(i, j) {
     return inputLines[i].getElementsByClassName('key-div')[j]
 }
 
-function changeLayout(language, shift){
-var layout = layouts[language][shift];
+function changeLayout(language, shift) {
+    var layout = layouts[language][shift];
     for (let i = 0; i < layout.length; i++) {
         let j = 0;
         for (let key of layout[i]) {
@@ -122,17 +122,52 @@ var layout = layouts[language][shift];
     }
 }
 
+function setPressedButtonColor(i, j) {
+    getKeyDiv(i, j).style.backgroundColor = "#eee";
+    getKeyDiv(i, j).style.color = "#333";
+}
+
+function setUnpressedButtonColor(i, j) {
+    getKeyDiv(i, j).style.backgroundColor = "#557";
+    getKeyDiv(i, j).style.color = "#eee";
+}
+
+function setHoverButtonColor(i, j) {
+    getKeyDiv(i, j).style.backgroundColor = '#446';
+    getKeyDiv(i, j).style.color = "#eee";
+}
+
+
+function setEventListenerToVirtualKey() {
+    for (let i = 0; i < keyCodes.length; i++) {
+        for (let j = 0; j < keyCodes[i].length; j++) {
+
+            getKeyDiv(i, j).addEventListener("mousedown", function () {
+                setPressedButtonColor(i, j);
+                
+            });
+            getKeyDiv(i, j).addEventListener("mouseup", function () {
+                setUnpressedButtonColor(i, j);
+            });
+            getKeyDiv(i, j).addEventListener("mouseover", function () {
+                setHoverButtonColor(i, j);
+            });
+            getKeyDiv(i, j).addEventListener("mouseout", function () {
+                setUnpressedButtonColor(i, j);
+            });
+        }
+    }
+}
+
 document.addEventListener('keydown', function (event) {
     for (let i = 0; i < keyCodes.length; i++) {
         for (let j = 0; j < keyCodes[i].length; j++)
             if (event.code == keyCodes[i][j]) {
-                getKeyDiv(i, j).style.backgroundColor = "#eee";
-                getKeyDiv(i, j).style.color = "#333";
-                if(event.shiftKey){
+                setPressedButtonColor(i, j);
+                if (event.shiftKey) {
                     changeLayout(0, 1);
                 }
             }
-            
     }
 });
 
@@ -140,21 +175,21 @@ document.addEventListener('keyup', function (event) {
     for (let i = 0; i < keyCodes.length; i++) {
         for (let j = 0; j < keyCodes[i].length; j++)
             if (event.code === keyCodes[i][j]) {
-                getKeyDiv(i, j).style.backgroundColor = "#557";
-                getKeyDiv(i, j).style.color = "#eee";
-                if(!event.shiftKey){
+                setUnpressedButtonColor(i, j);
+                if (!event.shiftKey) {
                     changeLayout(0, 0);
                 }
             }
-            
     }
 });
 
 function main() {
+
     createInputLines();
     createVirtualKeys(englishLayout);
-    outputBlock.style.width = inputBlock.offsetWidth - 26 + "px";
 
+    outputBlock.style.width = inputBlock.offsetWidth - 26 + "px";
+    setEventListenerToVirtualKey();
 }
 
 main();

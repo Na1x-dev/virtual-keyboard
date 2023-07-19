@@ -77,14 +77,14 @@ body {
 
 .key-div:hover{
     cursor: pointer;
-    background-color: #446;
+    /* background-color: #446; */
     
 }
 
 .key-div:active{
     cursor: pointer;
-    background-color: #eee;
-    color: #333;
+    /* background-color: #eee; */
+    /* color: #333; */
 }
 
 
