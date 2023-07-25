@@ -1,8 +1,12 @@
 body {
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: ; */
     background-color: #557;
+    /* width: 95%; */
+    align-items: flex-start;
+    user-select: none;
+    transition-duration: 0.2s;
 }
 
 .main-block {
@@ -61,7 +65,7 @@ body {
     gap: 10px;
 }
 
-.key-div{
+.key-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -72,21 +76,41 @@ body {
     border: 1px #eee solid;
     border-radius: 5px;
     transition-duration: 0.2s;
+    user-select: none;
 }
 
-
-.key-div:hover{
+.key-div:hover {
     cursor: pointer;
-    /* background-color: #446; */
-    
 }
 
-.key-div:active{
+.key-div:active {
     cursor: pointer;
-    /* background-color: #eee; */
-    /* color: #333; */
 }
 
+.theme-button-container {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: auto;
+    height: auto;
+    background-color: #557;
+    background-color: #668;
+    border: 3px #eee solid;
+    border-radius: 10px;
+    padding: 10px;
+    right: auto;
+    left: 10px;
+    user-select: none;
+    gap: 10px;
+}
+
+.theme-button{
+    width: 2vw;
+    height: 2vw;
+    color: #eee;
+    border: 1px #eee solid;
+    border-radius: 5px;
+}
 
 @font-face {
     font-family: "Montserrat";
