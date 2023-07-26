@@ -112,6 +112,19 @@ body {
     border-radius: 5px;
 }
 
+.color-round{
+    position: fixed;
+    width: 0px;
+    height: 0px;
+    background-color: aqua;
+    border-top-right-radius: 100%;
+    border-bottom-left-radius: 100%;
+    border-bottom-right-radius: 100%;
+    left: -50px;
+    top: -50px;
+
+}
+
 @font-face {
     font-family: "Montserrat";
     font-style: normal;

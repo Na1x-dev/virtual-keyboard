@@ -6,7 +6,17 @@ var outputField = document.createElement('textarea');
 var themeButtonContainer = document.createElement('div');
 var inputLines = [];
 var shiftPressed = 0;
+var colorRound = document.createElement('div');
 //background, field, text, hover, active
+
+let themeColor = {
+    generalColor: '#557',
+    blockColor: '#668',
+    textColor: '#eee',
+    hoverColor: '#446',
+    clickedColor: '#333'
+};
+
 var themeColors = [['#557', '#668', '#eee', '#446', '#333'], ['#575', '#686', '#eee', '#464', '#333'], ['#755', '#866', '#eee', '#644', '#333'], ['#eee', '#eee', '#333', '#999', '#eee'], ['#333', '#333', '#eee', '#555', '#333']];
 var chosedTheme = 0;
 
@@ -66,6 +76,7 @@ header.className = 'main-header';
 outputBlock.className = 'output-block';
 outputField.className = 'output-field';
 inputBlock.className = 'input-block';
+colorRound.className = 'color-round';
 outputField.readOnly = 'readonly';
 
 header.innerHTML = "Virtual Keyboard";
@@ -76,7 +87,7 @@ mainBlock.appendChild(header);
 mainBlock.appendChild(outputBlock);
 outputBlock.appendChild(outputField);
 mainBlock.appendChild(inputBlock);
-
+mainBlock.appendChild(colorRound);
 
 function createInputLines() {
     for (let i = 0; i < 5; i++) {
@@ -87,13 +98,38 @@ function createInputLines() {
     }
 }
 
+function colorFillAnimation() {
+    colorRound.style.transitionDuration = '0s';
+    colorRound.style.opacity = '1';
+    colorRound.style.zIndex = '10';
+    colorRound.style.backgroundColor = themeColors[chosedTheme][0];
+    setTimeout(()=>{colorRound.style.transitionDuration = '1s';
+    colorRound.style.width = '200vw';
+    colorRound.style.height = '200vw';}, 1);
+    
+    setTimeout(function () {
+        changeTheme();
+        colorRound.style.opacity = 0;
+        colorRound.style.zIndex = '-1';
+
+    }, 500);
+    setTimeout(() => {
+        colorRound.style.width = '0';
+        colorRound.style.height = '0';
+        colorRound.style.transitionDuration = '0s';
+    }, 1000);
+
+
+}
+
 function createThemeButtons() {
     for (let i = 0; i < themeColors.length; i++) {
         var themeButton = document.createElement('div');
         themeButton.className = 'theme-button';
         themeButton.onclick = function () {
             chosedTheme = i;
-            changeTheme();
+            colorFillAnimation();
+            
         };
         themeButton.style.backgroundColor = themeColors[i][0];
         themeButton.style.borderColor = themeColors[i][2];
@@ -105,18 +141,19 @@ function changeTheme() {
     document.body.style.backgroundColor = themeColors[chosedTheme][0];
     outputField.style.backgroundColor = themeColors[chosedTheme][1];
     outputField.style.color = themeColors[chosedTheme][2];
-    inputBlock.style.backgroundColor =  themeColors[chosedTheme][1];
+    inputBlock.style.backgroundColor = themeColors[chosedTheme][1];
     outputField.style.borderColor = themeColors[chosedTheme][3];
-    inputBlock.style.borderColor =  themeColors[chosedTheme][3];
-    themeButtonContainer.style.backgroundColor =  themeColors[chosedTheme][1];
-    themeButtonContainer.style.borderColor =  themeColors[chosedTheme][3];
+    inputBlock.style.borderColor = themeColors[chosedTheme][3];
+    themeButtonContainer.style.backgroundColor = themeColors[chosedTheme][1];
+    themeButtonContainer.style.borderColor = themeColors[chosedTheme][3];
+    header.style.color = themeColors[chosedTheme][2];
     for (let i = 0; i < keyCodes.length; i++) {
         for (let j = 0; j < keyCodes[i].length; j++) {
             getKeyDiv(i, j).style.backgroundColor = themeColors[chosedTheme][0];
             getKeyDiv(i, j).style.borderColor = themeColors[chosedTheme][3];
             getKeyDiv(i, j).style.color = themeColors[chosedTheme][2];
-            
-            
+
+
         }
     }
 }
@@ -255,7 +292,7 @@ function main() {
     createThemeButtons();
     createInputLines();
     createVirtualKeys(englishLayout);
-changeTheme();
+    changeTheme();
     outputBlock.style.width = inputBlock.offsetWidth - 26 + "px";
     setEventListenerToVirtualKey();
 }
