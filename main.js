@@ -17,8 +17,25 @@ let themeColor = {
     clickedColor: '#333'
 };
 
-var themeColors = [['#557', '#668', '#eee', '#446', '#333'], ['#575', '#686', '#eee', '#464', '#333'], ['#755', '#866', '#eee', '#644', '#333'], ['#eee', '#eee', '#333', '#999', '#eee'], ['#333', '#333', '#eee', '#555', '#333']];
-var chosedTheme = 0;
+var themeColors =     [['#558', '#669', '#eee', '#447', '#333'],
+['#588', '#699', '#eee', '#477', '#333'],
+['#585', '#696', '#eee', '#474', '#333'],
+['#885', '#996', '#eee', '#774', '#333'],
+['#855', '#966', '#eee', '#744', '#333'],
+['#eee', '#eee', '#333', '#999', '#eee'],
+['#333', '#333', '#eee', '#555', '#333']];
+
+    // [['#4287f5', '#6aa0ff', '#eee', '#3b76e0', '#333'],
+    // ['#3dbf5e', '#65d974', '#eee', '#37a54e', '#333'],
+    // ['#8a4dc2', '#a46cd1', '#eee', '#7a3bae', '#333'],
+    // ['#ff8f1f', '#ffa73f', '#eee', '#e67e1a', '#333'],
+    // ['#e84393', '#f06ca9', '#eee', '#d53e80', '#333'],
+    // ['#eee', '#eee', '#333', '#999', '#eee'],
+    // ['#333', '#333', '#eee', '#555', '#333']];
+
+
+
+    var chosedTheme = 0;
 
 const keyCodes = [
     ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
@@ -103,16 +120,18 @@ function colorFillAnimation() {
     colorRound.style.opacity = '1';
     colorRound.style.zIndex = '10';
     colorRound.style.backgroundColor = themeColors[chosedTheme][0];
-    setTimeout(()=>{colorRound.style.transitionDuration = '1s';
-    colorRound.style.width = '200vw';
-    colorRound.style.height = '200vw';}, 1);
-    
+    setTimeout(() => {
+        colorRound.style.transitionDuration = '1s';
+        colorRound.style.width = '200vw';
+        colorRound.style.height = '200vw';
+    }, 1);
+
     setTimeout(function () {
         changeTheme();
         colorRound.style.opacity = 0;
         colorRound.style.zIndex = '-1';
 
-    }, 500);
+    }, 300);
     setTimeout(() => {
         colorRound.style.width = '0';
         colorRound.style.height = '0';
@@ -129,7 +148,7 @@ function createThemeButtons() {
         themeButton.onclick = function () {
             chosedTheme = i;
             colorFillAnimation();
-            
+
         };
         themeButton.style.backgroundColor = themeColors[i][0];
         themeButton.style.borderColor = themeColors[i][2];
