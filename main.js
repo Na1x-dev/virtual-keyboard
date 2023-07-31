@@ -25,17 +25,7 @@ var themeColors =     [['#558', '#669', '#eee', '#447', '#333'],
 ['#eee', '#eee', '#333', '#999', '#eee'],
 ['#333', '#333', '#eee', '#555', '#333']];
 
-    // [['#4287f5', '#6aa0ff', '#eee', '#3b76e0', '#333'],
-    // ['#3dbf5e', '#65d974', '#eee', '#37a54e', '#333'],
-    // ['#8a4dc2', '#a46cd1', '#eee', '#7a3bae', '#333'],
-    // ['#ff8f1f', '#ffa73f', '#eee', '#e67e1a', '#333'],
-    // ['#e84393', '#f06ca9', '#eee', '#d53e80', '#333'],
-    // ['#eee', '#eee', '#333', '#999', '#eee'],
-    // ['#333', '#333', '#eee', '#555', '#333']];
-
-
-
-    var chosedTheme = 0;
+var chosedTheme = 0;
 
 const keyCodes = [
     ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace'],
