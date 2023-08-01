@@ -6,6 +6,7 @@ var outputField = document.createElement('textarea');
 var themeButtonContainer = document.createElement('div');
 var inputLines = [];
 var shiftPressed = 0;
+var capsPressed = 0;
 var colorRound = document.createElement('div');
 //background, field, text, hover, active
 
@@ -17,7 +18,7 @@ let themeColor = {
     clickedColor: '#333'
 };
 
-var themeColors =     [['#558', '#669', '#eee', '#447', '#333'],
+var themeColors = [['#558', '#669', '#eee', '#447', '#333'],
 ['#588', '#699', '#eee', '#477', '#333'],
 ['#585', '#696', '#eee', '#474', '#333'],
 ['#885', '#996', '#eee', '#774', '#333'],
@@ -161,8 +162,6 @@ function changeTheme() {
             getKeyDiv(i, j).style.backgroundColor = themeColors[chosedTheme][0];
             getKeyDiv(i, j).style.borderColor = themeColors[chosedTheme][3];
             getKeyDiv(i, j).style.color = themeColors[chosedTheme][2];
-
-
         }
     }
 }
@@ -186,9 +185,8 @@ function createVirtualKeys(layout) {
 }
 
 function writeToTheOutputField(i, j) {
-
     if (keyCodes[i][j].includes('Digit') || keyCodes[i][j].includes('Key') || keyCodes[i][j] === 'Backquote' || keyCodes[i][j] === 'Minus' || keyCodes[i][j] === 'Equal' || keyCodes[i][j] === 'BracketLeft' || keyCodes[i][j] === 'BracketRight' || keyCodes[i][j] === 'Backslash' || keyCodes[i][j] === 'Semicolon' || keyCodes[i][j] === 'Quote' || keyCodes[i][j] === 'Comma' || keyCodes[i][j] === 'Period' || keyCodes[i][j] === 'Slash' || keyCodes[i][j] === 'Space') {
-        outputField.value += layouts[0][shiftPressed][i][j];
+        outputField.value += layouts[0][shiftPressed ^ capsPressed][i][j];
     }
     else if (keyCodes[i][j] === 'Backspace') {
         outputField.value = outputField.value.slice(0, -1);
@@ -196,11 +194,11 @@ function writeToTheOutputField(i, j) {
 }
 
 function getKeyDiv(i, j) {
-    return inputLines[i].getElementsByClassName('key-div')[j]
+    return inputLines[i].getElementsByClassName('key-div')[j];
 }
 
-function changeLayout(language, shift) {
-    var layout = layouts[language][shift];
+function changeLayout(language) {
+    var layout = layouts[language][shiftPressed ^ capsPressed];
     for (let i = 0; i < layout.length; i++) {
         let j = 0;
         for (let key of layout[i]) {
@@ -238,32 +236,49 @@ function setUnHoverButtonColor(i, j) {
     getKeyDiv(i, j).style.color = themeColors[chosedTheme][2];
 }
 
+function setCapsPressedColor(){
+    if(capsPressed){
+        getKeyDiv(2,0).style.backgroundColor = themeColors[chosedTheme][2];
+        getKeyDiv(2,0).style.color = themeColors[chosedTheme][4];
+    }
+}
+
 function checkShiftForMouse(i, j, shiftPressedDefault) {
     if (keyCodes[i][j] === 'ShiftLeft' || keyCodes[i][j] === 'ShiftRight') {
         shiftPressed = shiftPressedDefault;
     }
 }
 
+function checkCapsForMouse(i, j) {
+    if (keyCodes[i][j] === 'CapsLock') {
+        capsPressed = !capsPressed;
+    }
+}
 
 function setEventListenerToVirtualKey() {
     for (let i = 0; i < keyCodes.length; i++) {
         for (let j = 0; j < keyCodes[i].length; j++) {
             getKeyDiv(i, j).addEventListener("mousedown", function () {
                 checkShiftForMouse(i, j, 1);
-                changeLayout(0, shiftPressed);
                 writeToTheOutputField(i, j);
                 setPressedButtonColor(i, j);
+                checkCapsForMouse(i, j);
+                changeLayout(0);
+                setCapsPressedColor();
             });
             getKeyDiv(i, j).addEventListener("mouseup", function () {
                 checkShiftForMouse(i, j, 0);
                 setUnPressedButtonColorWithMouse(i, j);
-                changeLayout(0, shiftPressed);
+                changeLayout(0);
+                setCapsPressedColor();
             });
             getKeyDiv(i, j).addEventListener("mouseover", function () {
                 setHoverButtonColor(i, j);
+                setCapsPressedColor();
             });
             getKeyDiv(i, j).addEventListener("mouseout", function () {
                 setUnHoverButtonColor(i, j);
+                setCapsPressedColor();
             });
         }
     }
@@ -271,31 +286,38 @@ function setEventListenerToVirtualKey() {
 
 document.addEventListener('keydown', function (event) {
     for (let i = 0; i < keyCodes.length; i++) {
-        for (let j = 0; j < keyCodes[i].length; j++)
+        for (let j = 0; j < keyCodes[i].length; j++) {
             if (event.code == keyCodes[i][j]) {
                 if (event.shiftKey) {
                     shiftPressed = 1;
                 }
+                if (event.code == 'CapsLock') {
+                    capsPressed = capsPressed == 1 ? 0 : 1;
+                }
                 writeToTheOutputField(i, j);
                 setPressedButtonColor(i, j);
-                changeLayout(0, shiftPressed);
+                changeLayout(0);
+                setCapsPressedColor();
             }
+        }
     }
 });
 
 document.addEventListener('keyup', function (event) {
     for (let i = 0; i < keyCodes.length; i++) {
-        for (let j = 0; j < keyCodes[i].length; j++)
+        for (let j = 0; j < keyCodes[i].length; j++) {
             if (event.code === keyCodes[i][j]) {
                 if (!event.shiftKey) {
                     shiftPressed = 0;
                 }
                 setUnpressedButtonColor(i, j);
-                changeLayout(0, shiftPressed);
-
+                changeLayout(0);
+                setCapsPressedColor();
             }
+        }
     }
 });
+
 
 function main() {
     createThemeButtons();
