@@ -27,6 +27,7 @@ var themeColors = [['#558', '#669', '#eee', '#447', '#333'],
 ['#eee', '#eee', '#333', '#999', '#eee'],
 ['#333', '#333', '#eee', '#555', '#333']];
 
+
 // [['#4287f5', '#6aa0ff', '#eee', '#3b76e0', '#333'],
 // ['#3dbf5e', '#65d974', '#eee', '#37a54e', '#333'],
 // ['#8a4dc2', '#a46cd1', '#eee', '#7a3bae', '#333'],
@@ -37,6 +38,7 @@ var themeColors = [['#558', '#669', '#eee', '#447', '#333'],
 
 
 var chosedLanguage = 0;
+
 var chosedTheme = 0;
 
 const keyCodes = [
