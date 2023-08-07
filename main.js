@@ -7,6 +7,7 @@ var themeButtonContainer = document.createElement('div');
 var inputLines = [];
 var shiftPressed = 0;
 var capsPressed = 0;
+var controlPressed = 0;
 var colorRound = document.createElement('div');
 //background, field, text, hover, active
 
@@ -35,7 +36,7 @@ var themeColors = [['#558', '#669', '#eee', '#447', '#333'],
 // ['#333', '#333', '#eee', '#555', '#333']];
 
 
-
+var chosedLanguage = 0;
 var chosedTheme = 0;
 
 const keyCodes = [
@@ -47,18 +48,18 @@ const keyCodes = [
 ];
 
 const russianLayout = [
-    ['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-    ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '\\'],
-    ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter'],
-    ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', 'Shift', '↑', 'Del'],
+    ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
+    ['Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\'],
+    ['CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter'],
+    ['Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', 'Shift', '↑', 'Del'],
     ['Ctrl', 'Meta', 'Alt', ' ', 'Alt', 'Ctrl', '←', '↓', '→']
 ];
 
 const russianShiftLayout = [
-    ['Ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
-    ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '\\'],
+    ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace'],
+    ['Tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', '/'],
     ['CapsLock', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', 'Enter'],
-    ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', '.', 'Shift', '↑', 'Del'],
+    ['Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', 'Shift', '↑', 'Del'],
     ['Ctrl', 'Meta', 'Alt', ' ', 'Alt', 'Ctrl', '←', '↓', '→']
 ];
 
@@ -138,8 +139,6 @@ function colorFillAnimation() {
         colorRound.style.height = '0';
         colorRound.style.transitionDuration = '0s';
     }, 1000);
-
-
 }
 
 function createThemeButtons() {
@@ -196,7 +195,7 @@ function createVirtualKeys(layout) {
 
 function writeToTheOutputField(i, j) {
     if (keyCodes[i][j].includes('Digit') || keyCodes[i][j].includes('Key') || keyCodes[i][j] === 'Backquote' || keyCodes[i][j] === 'Minus' || keyCodes[i][j] === 'Equal' || keyCodes[i][j] === 'BracketLeft' || keyCodes[i][j] === 'BracketRight' || keyCodes[i][j] === 'Backslash' || keyCodes[i][j] === 'Semicolon' || keyCodes[i][j] === 'Quote' || keyCodes[i][j] === 'Comma' || keyCodes[i][j] === 'Period' || keyCodes[i][j] === 'Slash' || keyCodes[i][j] === 'Space') {
-        outputField.value += layouts[0][shiftPressed ^ capsPressed][i][j];
+        outputField.value += layouts[chosedLanguage][shiftPressed ^ capsPressed][i][j];
     }
     else if (keyCodes[i][j] === 'Backspace') {
         outputField.value = outputField.value.slice(0, -1);
@@ -207,8 +206,8 @@ function getKeyDiv(i, j) {
     return inputLines[i].getElementsByClassName('key-div')[j];
 }
 
-function changeLayout(language) {
-    var layout = layouts[language][shiftPressed ^ capsPressed];
+function changeLayout() {
+    var layout = layouts[chosedLanguage][shiftPressed ^ capsPressed];
     for (let i = 0; i < layout.length; i++) {
         let j = 0;
         for (let key of layout[i]) {
@@ -246,10 +245,10 @@ function setUnHoverButtonColor(i, j) {
     getKeyDiv(i, j).style.color = themeColors[chosedTheme][2];
 }
 
-function setCapsPressedColor(){
-    if(capsPressed){
-        getKeyDiv(2,0).style.backgroundColor = themeColors[chosedTheme][2];
-        getKeyDiv(2,0).style.color = themeColors[chosedTheme][4];
+function setCapsPressedColor() {
+    if (capsPressed) {
+        getKeyDiv(2, 0).style.backgroundColor = themeColors[chosedTheme][2];
+        getKeyDiv(2, 0).style.color = themeColors[chosedTheme][4];
     }
 }
 
@@ -257,6 +256,23 @@ function checkShiftForMouse(i, j, shiftPressedDefault) {
     if (keyCodes[i][j] === 'ShiftLeft' || keyCodes[i][j] === 'ShiftRight') {
         shiftPressed = shiftPressedDefault;
     }
+}
+
+function checkControlForMouse(i, j, controlPressedDefault) {
+    if (keyCodes[i][j] === 'ControlLeft') {
+        controlPressed = controlPressedDefault;
+    }
+}
+
+function checkShiftAndControl() {
+    if (controlPressed == 1 && shiftPressed == 1) {
+        chosedLanguage++;
+        if (chosedLanguage >= layouts.length) {
+            chosedLanguage = 0;
+        }
+        console.log(chosedLanguage);
+    }
+    
 }
 
 function checkCapsForMouse(i, j) {
@@ -270,16 +286,19 @@ function setEventListenerToVirtualKey() {
         for (let j = 0; j < keyCodes[i].length; j++) {
             getKeyDiv(i, j).addEventListener("mousedown", function () {
                 checkShiftForMouse(i, j, 1);
+                checkControlForMouse(i, j, 1);
                 writeToTheOutputField(i, j);
                 setPressedButtonColor(i, j);
                 checkCapsForMouse(i, j);
-                changeLayout(0);
+                changeLayout();
                 setCapsPressedColor();
+                checkShiftAndControl();
             });
             getKeyDiv(i, j).addEventListener("mouseup", function () {
                 checkShiftForMouse(i, j, 0);
+                checkControlForMouse(i, j, 0);
                 setUnPressedButtonColorWithMouse(i, j);
-                changeLayout(0);
+                changeLayout();
                 setCapsPressedColor();
             });
             getKeyDiv(i, j).addEventListener("mouseover", function () {
@@ -300,13 +319,17 @@ document.addEventListener('keydown', function (event) {
             if (event.code == keyCodes[i][j]) {
                 if (event.shiftKey) {
                     shiftPressed = 1;
+                } 
+                if (event.ctrlKey) {
+                    controlPressed = 1;
                 }
                 if (event.code == 'CapsLock') {
                     capsPressed = capsPressed == 1 ? 0 : 1;
                 }
                 writeToTheOutputField(i, j);
                 setPressedButtonColor(i, j);
-                changeLayout(0);
+                checkShiftAndControl();
+                changeLayout();
                 setCapsPressedColor();
             }
         }
@@ -320,14 +343,16 @@ document.addEventListener('keyup', function (event) {
                 if (!event.shiftKey) {
                     shiftPressed = 0;
                 }
+                if (!event.ctrlKey) {
+                    controlPressed = 0;
+                }
                 setUnpressedButtonColor(i, j);
-                changeLayout(0);
+                changeLayout();
                 setCapsPressedColor();
             }
         }
     }
 });
-
 
 function main() {
     createThemeButtons();
