@@ -8,10 +8,6 @@
     <a href="https://na1x-dev.github.io/virtual-keyboard/"><strong>Протестировать демо »</strong></a>
   </p>
 
-![GitHub License](https://shields.io)
-![JavaScript Standard Style](https://shields.io)
-![PRs Welcome](https://shields.io)
-
 </div>
 
 ---
