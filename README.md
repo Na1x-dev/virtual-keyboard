@@ -15,7 +15,7 @@
 ## 📸 Интерфейс проекта
 
 <div align="center">
-  <img src="screenshot.png" alt="Virtual Keyboard Preview" width="100%" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+  <img src="src/img/screenshot.png" alt="Virtual Keyboard Preview" width="100%" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
 </div>
 
 ---
@@ -43,12 +43,12 @@
 
 ```text
 virtual-keyboard/
-├── .vscode/          # Настройки рабочего пространства VS Code
-├── fonts/            # Локальные шрифты проекта
+├── src/              # Ресурсы проекта
+|   ├── fonts/        # Локальные шрифты проекта (Montserrat)
+│   └── img/          # Изображения и медиа-файлы проекта
 ├── index.html        # Главная страница и разметка интерфейса
-├── style.css         # Стилизация элементов, анимации и адаптивный слой
 ├── main.js           # Обработчики событий и бизнес-логика клавиатуры
-├── screenshot.png    # Изображение для превью в документации
+├── style.css         # Стилизация элементов, анимации и адаптивный слой
 └── README.md         # Документация проекта
 ```
 
