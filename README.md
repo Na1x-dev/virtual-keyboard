@@ -5,7 +5,16 @@
 ## 🚀 Живое демо (Live Demo)
 
 Вы можете протестировать работу виртуальной клавиатуры прямо в браузере:
-👉 **[Открыть Virtual Keyboard](https://github.io/virtual-keyboard/)**
+👉 **[Открыть Virtual Keyboard](https://na1x-dev.github.io/virtual-keyboard/)**
+
+---
+
+## 📸 Скриншот интерфейса
+
+<div align="center">
+  <img src="screenshot.png" alt="Virtual Keyboard Screenshot" width="800" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+  <p><i>Интерфейс виртуальной клавиатуры в браузере</i></p>
+</div>
 
 ---
 
@@ -30,7 +39,7 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com
+   git clone https://github.com/Na1x-dev/virtual-keyboard
    ```
 2. Перейдите в папку с проектом:
    ```bash
